@@ -14,6 +14,17 @@ export function CheckoutView({ items, paid, onPay, onBack }: CheckoutViewProps) 
   const discount = subtotal >= 100 ? 30 : 0
   const payable = subtotal - discount
 
+  if (!items.length) return (
+    <main className="mx-auto flex min-h-screen max-w-lg items-center px-5 py-10">
+      <section className="w-full rounded-3xl bg-white p-7 text-center shadow-float">
+        <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-rice-100 text-chili-500"><ReceiptText size={28} /></span>
+        <h1 className="mt-5 text-2xl font-extrabold text-charcoal-900">{t('checkout.empty_title')}</h1>
+        <p className="mt-3 leading-7 text-charcoal-500">{t('checkout.empty_desc')}</p>
+        <Button onClick={onBack} className="mt-6 w-full">{t('checkout.back_order')}</Button>
+      </section>
+    </main>
+  )
+
   if (paid) return (
     <main className="mx-auto flex min-h-screen max-w-lg items-center px-5 py-10"><section className="w-full rounded-3xl bg-white p-7 text-center shadow-float"><span className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-emerald-50 text-emerald-600"><Check size={36} /></span><p className="mt-6 text-sm font-bold text-emerald-600">{t('checkout.success_badge')}</p><h1 className="mt-2 text-3xl font-extrabold text-charcoal-900">{t('checkout.success_title')}</h1><p className="mt-3 whitespace-pre-line leading-7 text-charcoal-500">{t('checkout.success_desc')}</p><div className="mt-6 rounded-2xl bg-rice-100 p-4"><p className="text-sm text-charcoal-500">{t('checkout.paid')}</p><p className="mt-1 text-3xl font-extrabold text-chili-500">{money(payable)}</p></div><Button onClick={onBack} variant="outline" className="mt-6 w-full">{t('checkout.back')}</Button></section></main>
   )
