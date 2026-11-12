@@ -103,7 +103,7 @@ export function MenuView({ diners, soldOut, onAdd }: MenuViewProps) {
         })}
       </div>
 
-      <Dialog open={!!selected} onOpenChange={(open) => { if (!open) { setSelected(null); setShowRiskWarning(false) } }}>
+      <Dialog open={!!selected} onOpenChange={(open) => { if (!open && !showRiskWarning) { setSelected(null); setShowRiskWarning(false) } }}>
         <DialogContent title={selected ? t(selected.name) : ''}>
           {selected && <>
             <div className="mt-4 flex gap-4 rounded-2xl bg-white p-3"><img src={selected.image} alt={t(selected.name)} className="h-24 w-24 rounded-xl object-cover" /><div><p className="text-sm leading-6 text-charcoal-500">{t(selected.description)}</p><p className="mt-2 text-xl font-extrabold text-chili-500">{money(selected.price)} <small className="text-xs font-medium text-charcoal-500">{t('menu.from')}</small></p></div></div>
@@ -117,7 +117,14 @@ export function MenuView({ diners, soldOut, onAdd }: MenuViewProps) {
       </Dialog>
 
       <Dialog open={showRiskWarning} onOpenChange={(open) => !open && cancelSuperSpicy()}>
-        <DialogContent title={t('menu.super_spicy_warning_title')}>
+        <DialogContent
+          title={t('menu.super_spicy_warning_title')}
+          onInteractOutside={(event) => {
+            event.preventDefault()
+            event.stopPropagation()
+            cancelSuperSpicy()
+          }}
+        >
           <div className='mt-4 flex flex-col items-center gap-4'>
             <span className='flex h-14 w-14 items-center justify-center rounded-2xl bg-chili-50 text-chili-500'><AlertTriangle size={28} /></span>
             <p className='text-center text-sm leading-6 text-charcoal-700'>{t('menu.super_spicy_warning')}</p>

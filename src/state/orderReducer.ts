@@ -51,6 +51,7 @@ export function orderReducer(state: AppState, action: AppAction): AppState {
         orderItems: [...state.orderItems, ...additions],
         cart: [],
         orderStage: 'submitted',
+        paid: false,
         view: 'order',
         lastMessage: state.orderItems.length ? i18next.t('message.order_additional') : i18next.t('message.order_submitted'),
       }
